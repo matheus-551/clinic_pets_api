@@ -35,6 +35,7 @@ const fileFormat = winston.format.combine(
 const logger = winston.createLogger({
   levels: customLevels,    
   level: "http",  
+  handleExceptions: true,
   transports: [
     new winston.transports.Console({ format: consoleFormat }),
 

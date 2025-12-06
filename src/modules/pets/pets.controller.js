@@ -1,7 +1,7 @@
 import PetsService from "./pets.service.js";
 const service = new PetsService();
 
-export default class OwnerController {
+export default class PetsController {
   static async getAll(req, res, next) { 
     try { 
       res.json(await service.findAll()); 
