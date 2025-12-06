@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import "dotenv/config";
 
 import logger from "./src/config/logger.js";
@@ -15,6 +16,8 @@ const app = express();
 app.use(express.json());
 
 app.use(morganLogger);
+
+app.use(cors());
 
 const PREFIX = process.env.NODE_ENV === "production" ? "/api/v1" : "/api/v1";
 
