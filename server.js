@@ -9,6 +9,7 @@ import { validateDbConnection } from "./src/config/database.js";
 
 import ownersRoutes from "./src/routes/owners.routes.js";
 import petsRoutes from "./src/routes/pets.routes.js";
+import appointmentsRoutes from "./src/routes/appointments.routes.js";
 
 const app = express();
 app.use(express.json());
@@ -19,6 +20,7 @@ const PREFIX = process.env.NODE_ENV === "production" ? "/api/v1" : "/api/v1";
 
 app.use(PREFIX, ownersRoutes);
 app.use(PREFIX, petsRoutes);
+app.use(PREFIX, appointmentsRoutes);
 app.use(errorHandler);
 
 await validateDbConnection();
