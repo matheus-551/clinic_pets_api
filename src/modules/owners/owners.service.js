@@ -1,8 +1,10 @@
 import ApiError from "../../core/ApiError.js";
 import BaseService from "../../core/BaseService.js";
 import OwnersRepository from "./owners.repository.js";
+import PetsRepository from "../pets/pets.repository.js";
 
 const repository = new OwnersRepository();
+const petsRepository = new PetsRepository();
 
 export default class OwnersService extends BaseService {
     constructor() {
@@ -34,5 +36,16 @@ export default class OwnersService extends BaseService {
     create(data) {
         this.validade(data);
         return super.create(data);
+    }
+
+    async delete(id) {
+        const owner = await repository.findById(id);
+
+        const existPets = await petsRepository.existsByOwnerId(owner.id);
+
+        if (existPets) 
+            throw new ApiError(400, "O dono possui pets vinculados e nao pode ser excluido.");
+
+        return super.delete(id);
     }
 }

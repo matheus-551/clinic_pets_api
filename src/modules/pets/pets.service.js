@@ -2,9 +2,11 @@ import BaseService from "../../core/BaseService.js";
 import ApiError from "../../core/ApiError.js";
 import PetsRepository from "./pets.repository.js";
 import OwnersService from "../owners/owners.service.js";
+import AppointmentsRepository from "../appointments/appointments.repository.js";
 
 const repository = new PetsRepository();
 const ownersService = new OwnersService();
+const appointmentsRepository = new AppointmentsRepository();
 
 /**
  * @typedef {Object} PetDTO
@@ -61,5 +63,16 @@ export default class PetsService extends BaseService {
         data.birthdate = new Date(data.birthdate);
 
         return super.create(data);
+    }
+
+    async delete(id) {
+        const pet = await repository.findById(id);
+
+        const existAppointments = await appointmentsRepository.existsByPetId(pet.id);
+
+        if (existAppointments) 
+            throw new ApiError(400, "O pet possui agendamentos vinculados e não pode ser excluido.");
+
+        return super.delete(id);
     }
 }
