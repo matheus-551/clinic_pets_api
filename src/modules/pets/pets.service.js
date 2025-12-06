@@ -1,6 +1,7 @@
-import BaseService from "../../core/BaseService";
-import PetsRepository from "./pets.repository";
-import OwnersService from "../owners/owners.service";
+import BaseService from "../../core/BaseService.js";
+import ApiError from "../../core/ApiError.js";
+import PetsRepository from "./pets.repository.js";
+import OwnersService from "../owners/owners.service.js";
 
 const repository = new PetsRepository();
 const ownersService = new OwnersService();
@@ -24,7 +25,8 @@ export default class PetsService extends BaseService {
      *  name: string required,
      *  species: string required,
      *  breed: string,
-     *  ownerId: number required
+     *  birthdate: datetime,
+     *  owner_id    : number required,
      * }} data 
      */
     validate(data) {
@@ -32,7 +34,7 @@ export default class PetsService extends BaseService {
         if (data.name.trim().length <= 0) throw new ApiError(400, "O nome é obrigatorio");
         if (!data.species) throw new ApiError(400, "A especie é obrigatorio");
         if (data.species.trim().length <= 0) throw new ApiError(400, "A especie é obrigatorio");
-        if (!data.ownerId) throw new ApiError(400, "O dono do pet é obrigatorio");
+        if (!data.owner_id) throw new ApiError(400, "O dono do pet é obrigatorio");
     }
 
     /**
@@ -41,19 +43,23 @@ export default class PetsService extends BaseService {
      *  name: string required,
      *  species: string required,
      *  breed: string,
-     *  ownerId: number required
+     *  birthdate: datetime,
+     *  owner_id: number required
      * }} data 
     */
     async create(data) {
         this.validate(data);
 
-        const owner = await ownersService.findById(data.ownerId);
+        const owner = await ownersService.findById(data.owner_id);
 
         if (!owner) {
             throw new ApiError(404, "Dono do pet nao encontrado.");
         }
 
-        data.ownerId = owner.id;
+        data.owner_id = owner.id;
+
+        data.birthdate = new Date(data.birthdate);
+
         return super.create(data);
     }
 }
