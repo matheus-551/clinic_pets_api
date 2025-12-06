@@ -1,11 +1,11 @@
 import express from "express";
-import logger from "./config/logger.js";
-import { morganLogger } from "./middlewares/logger.middleware.js";
-import { errorHandler } from "./middlewares/error.middleware.js";
+import logger from "./src/config/logger.js";
+import { morganLogger } from "./src/middlewares/logger.middleware.js";
+import { errorHandler } from "./src/middlewares/error.middleware.js";
 
-import { validateDbConnection } from "./config/database.js";
+import { validateDbConnection } from "./src/config/database.js";
 
-import ownersRoutes from "./routes/owners.routes.js";
+import ownersRoutes from "./src/routes/owners.routes.js";
 import "dotenv/config";
 
 const app = express();

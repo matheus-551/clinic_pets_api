@@ -1,7 +1,6 @@
 import winston from "winston";
 import "winston-daily-rotate-file";
 
-// 🔥 cores para console (não para arquivo)
 winston.addColors({
   error: "red bold",
   warn: "yellow",
