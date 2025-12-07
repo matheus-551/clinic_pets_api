@@ -20,9 +20,9 @@ export default class OwnersService extends BaseService {
      * }} data 
      */
     validade(data) {
-        if (!data.name) throw new ApiError(400, "O nome é obrigatorio");
-        if (data.name.trim().length <= 0) throw new ApiError(400, "O nome é obrigatorio");
-        if (!data.phone) throw new ApiError(400, "O telefone é obrigatorio");
+        if (!data.name) throw new ApiError(400, "O nome é obrigatório.");
+        if (data.name.trim().length <= 0) throw new ApiError(400, "O nome é obrigatório.");
+        if (!data.phone) throw new ApiError(400, "O telefone é obrigatório.");
     }
 
         /**
@@ -44,7 +44,7 @@ export default class OwnersService extends BaseService {
         const existPets = await petsRepository.existsByOwnerId(owner.id);
 
         if (existPets) 
-            throw new ApiError(400, "O dono possui pets vinculados e nao pode ser excluido.");
+            throw new ApiError(400, "O dono possui pets vinculados e não pode ser excluído.");
 
         return super.delete(id);
     }

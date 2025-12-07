@@ -55,7 +55,7 @@ export default class PetsService extends BaseService {
         const owner = await ownersService.findById(data.owner_id);
 
         if (!owner) {
-            throw new ApiError(404, "Dono do pet nao encontrado.");
+            throw new ApiError(404, "Dono do pet não encontrado.");
         }
 
         data.owner_id = owner.id;
@@ -71,7 +71,7 @@ export default class PetsService extends BaseService {
         const existAppointments = await appointmentsRepository.existsByPetId(pet.id);
 
         if (existAppointments) 
-            throw new ApiError(400, "O pet possui agendamentos vinculados e não pode ser excluido.");
+            throw new ApiError(400, "O pet possui agendamentos vinculados e não pode ser excluído.");
 
         return super.delete(id);
     }

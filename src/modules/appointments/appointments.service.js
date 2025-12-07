@@ -23,19 +23,19 @@ export default class AppointmentsService extends BaseService {
      * }} data 
      */
     validate(data) {
-        if (!data.pet_id) throw new ApiError(400, "O pet é obrigatorio");
+        if (!data.pet_id) throw new ApiError(400, "O pet é obrigatório");
         if (data.date) {
             try {
                 data.date = new Date(data.date);
 
-                if (data.date < new Date()) throw new ApiError(400, "A data nao pode ser menor que a data atual.");
+                if (data.date < new Date()) throw new ApiError(400, "A data não pode ser menor que a data atual.");
             } catch (e) {
-                throw new ApiError(400, "A data eh invalida");
+                throw new ApiError(400, "A data é invalida");
             }
         } else {
-            throw new ApiError(400, "A data eh obrigatoria");
+            throw new ApiError(400, "A data é obrigatória");
         }
-        if (!data.veterinarian_name || data.veterinarian_name.trim().length <= 0) throw new ApiError(400, "O veterinario eh obrigatorio");
+        if (!data.veterinarian_name || data.veterinarian_name.trim().length <= 0) throw new ApiError(400, "O veterinario é obrigatório");
     }
 
     /**
@@ -62,7 +62,7 @@ export default class AppointmentsService extends BaseService {
             try {
                 data.date = new Date(data.date);                
             } catch (e) {
-                throw new ApiError(400, "A data eh invalida");
+                throw new ApiError(400, "A data é invalida");
             }
         }
 
