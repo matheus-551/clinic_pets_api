@@ -22,6 +22,7 @@ export default class BaseRepository {
       return result;
     } catch (e) {
       logger.error(`[DB ERROR] ${sql}  | ${e.code} | ${e.message}`);
+      logger.error(e);
       throw e instanceof ApiError ? e : mapDbError(e);
     }
   }

@@ -11,9 +11,12 @@ winston.addColors({
 });
 
 const customLevels = {
-  error: 0,
-  warn: 1,
-  info: 2,
+  fatal: 0,
+  error: 1,
+  warn: 2,
+  info: 3,
+  debug: 4,
+  trace: 5,
   http: 3
 };
 

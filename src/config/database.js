@@ -19,7 +19,8 @@ export async function validateDbConnection() {
     conn.release();
     logger.info("[DB] Connection Success.");
   } catch (err) {
-    logger.error("[DB] Failed to connect to database.", err.message);
+    logger.error("[DB] Failed to connect to database.");
+    logger.error(err);
     process.exit(1);
   }
 }
