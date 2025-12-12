@@ -3,9 +3,17 @@ import ApiError from "../core/ApiError.js";
 
 export function errorHandler(err, req, res, next) {
   if (err instanceof ApiError) {
-    return res.status(err.statusCode).json({ error: err.message });
+    logger.error(`[ApiError] ${err.message}`);
+    logger.error(err.stack);
+    return res.status(err.statusCode).json({
+      error: err.message,
+    });
   }
 
-  logger.error(err);
-  return res.status(500).json({ error: "Erro interno do servidor" });
+  logger.error(`[SERVER ERROR] ${err.message}`);
+  logger.error(err.stack);  // <-- Agora mostra o stack trace inteiro
+
+  return res.status(500).json({
+    error: "Erro interno do servidor",
+  });
 }
