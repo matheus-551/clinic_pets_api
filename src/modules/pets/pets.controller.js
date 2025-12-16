@@ -4,7 +4,15 @@ const service = new PetsService();
 export default class PetsController {
   static async getAll(req, res, next) { 
     try { 
-      res.json(await service.findAll()); 
+      const { skip, take, orderBy, ...filters } = req.query;
+
+      const result = await service.findAll({
+        skip: skip?.trim() !== undefined ? parseInt(skip, 10) : undefined,
+        take: take?.trim() !== undefined ? parseInt(take, 10) : undefined,
+        orderBy,
+        filters
+      });
+      res.json(result); 
     } 
     catch (e) { 
       next(e); 

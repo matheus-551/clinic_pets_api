@@ -4,8 +4,8 @@ export default class BaseService {
     this.repository = repository;
   }
 
-  findAll() {
-    return this.repository.findAll();
+  findAll(pagination = {}) {
+    return this.repository.findAll(pagination);
   }
 
   findById(id) {

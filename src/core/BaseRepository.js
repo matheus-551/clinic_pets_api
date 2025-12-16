@@ -32,8 +32,43 @@ export default class BaseRepository {
   // Métodos CRUD
   // ---------------------------
 
-  async findAll() {
-    return await this.execute(`SELECT * FROM ${this.table}`);
+  async findAll({ skip, take, orderBy, filters } = {}, baseSql = null) {
+    let sql = baseSql || `SELECT * FROM ${this.table}`;
+    const params = [];
+    let whereClause = "";
+
+    if (filters && Object.keys(filters).length) {
+      const wheres = Object.keys(filters).map(key => {
+        params.push(filters[key]);
+        return `${key} = ?`;
+      });
+      whereClause = ` WHERE ${wheres.join(" AND ")}`;
+      sql += whereClause;
+    }
+
+    if (orderBy) {
+      sql += ` ORDER BY ${orderBy}`;
+    }
+
+    if (typeof skip === "number" && typeof take === "number") {
+      sql += ` LIMIT ? OFFSET ?`;
+      params.push(take, skip);
+    }
+
+    const data = await this.execute(sql, params);
+
+    // count separado (com os mesmos filtros, sem paginação)
+    let countSql = `SELECT COUNT(*) as total FROM ${this.table}`;
+    if (whereClause) {
+      countSql += whereClause;
+    }
+    const countResult = await this.execute(
+      countSql,
+      params.slice(0, params.length - (skip !== undefined && take !== undefined ? 2 : 0))
+    );
+    const total = countResult[0].total;
+
+    return { data, total };
   }
 
   async findById(id) {

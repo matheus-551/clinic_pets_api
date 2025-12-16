@@ -13,10 +13,6 @@ export default class AppointmentsService extends BaseService {
         super(repository);
     }
 
-    async findAll() {
-        return await repository.findAll();
-    }
-
     /**
      * 
      * @param {{
