@@ -21,7 +21,7 @@ export const db = mysql.createPool({
   ...(isProduction && {
     ssl: {
       rejectUnauthorized: true,
-      ca: process.env.DB_SSL_CA,
+      ca: process.env.DB_SSL_CA?.replace(/\\n/g, "\n"),
     },
   }),
 });
@@ -31,9 +31,10 @@ export async function validateDbConnection() {
     const conn = await db.getConnection();
     conn.release();
     logger.info("[DB] Connection Success.");
+    return true;
   } catch (err) {
     logger.error("[DB] Failed to connect to database.");
-    logger.error(err);
-    process.exit(1);
+    logger.error((err.message || err).toString());
+    return false;
   }
 }
