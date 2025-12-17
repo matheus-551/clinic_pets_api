@@ -13,6 +13,7 @@ export const db = mysql.createPool({
 
   waitForConnections: true,
   connectionLimit: 5,
+  connectTimeout: 10000,
   queueLimit: 0,
 
   rowsAsArray: false,
