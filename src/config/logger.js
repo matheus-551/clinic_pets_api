@@ -1,5 +1,6 @@
 import winston from "winston";
 import "winston-daily-rotate-file";
+import "dotenv/config";
 
 winston.addColors({
   error: "red bold",
@@ -41,13 +42,6 @@ const logger = winston.createLogger({
   handleExceptions: true,
   transports: [
     new winston.transports.Console({ format: consoleFormat }),
-
-    new winston.transports.DailyRotateFile({
-      filename: "logs/%DATE%-server.log",
-      datePattern: "YYYY-MM-DD",
-      maxFiles: "14d",
-      format: fileFormat,
-    })
   ]
 });
 
